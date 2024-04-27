@@ -1,0 +1,3 @@
+boto3
+apache-airflow[amazon]
+apache-airflow-providers-amazon==8.16.0
