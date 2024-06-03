@@ -195,7 +195,7 @@ Looking at distributions of churn in each feature, is possible to see some good 
 
 ---
 
-My EDA was divided into three parts, the univariate analysis of the features, just the distribution and proportion of classes, the bivariate analysis where I raised and analyzed some hypotheses and the multivariate analysis where I analyzed only linear correlations and also the biserial point test in all features related to churn. More details at [exploration notebook](notebooks_churn/grc_eda.ipynb). I will resume tweo hypotheses below.
+My EDA was divided into three parts, the univariate analysis of the features, just the distribution and proportion of classes, the bivariate analysis where I raised and analyzed some hypotheses and the multivariate analysis where I analyzed only linear correlations and also the biserial point test in all features related to churn. More details at [exploration notebook](notebooks_churn/grc_eda.ipynb). I will resume two hypotheses below.
 
 **1. Sellers with a selling interval greather than one week, have 20% chance to churn.** is True. Is possible to see in plots, i used a point biserial statistics to, its return a pvalue very small.
 
