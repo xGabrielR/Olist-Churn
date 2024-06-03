@@ -14,9 +14,13 @@
   - [2.2. Problem Solving Methodology](#22-problem-solving-methodology)
   - [2.3. The Workflow](#23-the-workflow)
 - [3.0. Exploratory Data Analysis](#30-exploratory-data-analysis)
-  - [3.1. Top 2 Hypothesis](#31-top-2-hypothesis)
+  - [3.1. Silver Layer Exploration](#31-silver-layer-exploration)
+    - [3.1.1. Silver Layer Key Points](#311-silver-layer-key-points)
+  - [3.2. ABT Exploration](32-abt-exploration)
+    - [3.2.1. Descriptive Statistics](321-descriptive-statistics)
+    - [3.2.2. EDA](322-edaA)
 - [4.0. Machine Learning](#40-machine-learning)
-- [5.0. Serving](#50-serving)
+- [5.0. Business Results](#50-business-results)
 - [6.0. Next Steps](#60-next-steps)
 
 ---
