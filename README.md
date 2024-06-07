@@ -72,7 +72,7 @@ For this project, the main infra of Olist is at AWS Cloud. I have developed a wo
 
 <img src="assets/airflow_dms_ingestion.png">
 
-Afther extraction, the Apache Airflow (orchestrator of the process) execute AWS EMR to build lakehouse (multi-hop) architecture with this new fresh data extracted from source using Spark, Apache Iceberg and AWS Glue Catalog I build a lakehouse in AWS. With the file in landing, I used Apache Iceberg lake to build a lakehouse multi-hop architecture, all ingestion scripts and pipelines using AWS technology and open source tools such as Spark, Apache Iceberg and Airflow. For serving and query layer I choosed Aws Athena to query AWS Glue Data Catalog, is a expensive tool, maybe I will change in future.
+After extraction, the Apache Airflow (orchestrator of the process) execute AWS EMR to build lakehouse (multi-hop) architecture with this new fresh data extracted from source using Spark, Apache Iceberg and AWS Glue Catalog I build a lakehouse in AWS. With the file in landing, I used Apache Iceberg lake to build a lakehouse multi-hop architecture, all ingestion scripts and pipelines using AWS technology and open source tools such as Spark, Apache Iceberg and Airflow. For serving and query layer I choosed Aws Athena to query AWS Glue Data Catalog, is a expensive tool, maybe I will change in future.
 
 <img src="assets/airflow_emr_processing.png">
 
