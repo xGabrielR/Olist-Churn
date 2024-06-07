@@ -27,6 +27,8 @@
 
 ## 1.0. Business Problem
 
+---
+
 **Business Overview**: Olist is a Brazilian startup that operates in the retail technology segment. The company has solutions that facilitate the management of offline and online stores (e-commerce) and also a solution for increasing sales within marketplaces.
 On the one hand, Olist concentrates sellers who want to advertise on marketplaces such as Mercado Livre, Americanas and Amazon. On the other hand, concentrate products from all sellers in a single store that is visible to the end consumer.
 Olist was founded in February 2015 by Tiago Dalvi, as a spin-off from Solidarium, a company created in 2007 as a shopping store that later became a marketplace for the sale of artisanal products.
@@ -58,6 +60,7 @@ For this business problem and perspective exists some factors and features that 
 <img src="assets/mindmap.png">
 
 ### 2.2. Problem Solving Methodology
+
 I have CRISP in my toolkit for rapid development of solutions and problem solving techniques, based on this, the author "Eric Ries" has a phrase in the book lean startup, "Vision leads to direction" and shows a cyclical process for startup fast projects solutions and can be applied to data science projects too!!!
 
 <img src="assets/direction.png">
