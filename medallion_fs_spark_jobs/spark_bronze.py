@@ -103,11 +103,6 @@ def generate_bronze_metadata(
     )
 
     df = df.withColumn(
-        "_mt_bronze_written_lines",
-        pf.lit(df.count())
-    )
-
-    df = df.withColumn(
         "_mt_bronze_workflow_created_by",
         pf.lit(created_by)
     )
@@ -138,7 +133,7 @@ def process_bronze_dataframe(
         df = fix_bronze_void_columns(df)
         df = generate_bronze_metadata(df, metadata=metadata)
         
-        df = df.repartition(1)
+        df = df.coalesce(1)
         
         return df
     
