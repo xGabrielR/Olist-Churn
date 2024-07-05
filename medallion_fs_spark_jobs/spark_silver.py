@@ -119,11 +119,6 @@ def generate_silver_metadata(
         pf.lit(update_key)
     )
     
-    df = df.withColumn(
-        "_mt_silver_written_lines",
-        pf.lit(df.count())
-    )
-    
     return df
     
 def process_silver_dataframe(
