@@ -37,13 +37,13 @@ Source: Wikipedia.
 
 **Business Problem**: In Olist, exists sellers, the sellers monthly sell some products to customers. Exists some types of sellers that can work with Olist, some of that sellers can churn (not selling more). For Olist perspective, if a seller not sell in 45 days before the last day that seller is selled any product to a customer, this seller become in churn state.
 
-The Olist marketing team needs to a tool to identify the sellers who are likely to churn in the next month and somehow manage to retain that sellers. The strategy used by Olist's marketing team to retain these sellers is to use gift cards based on the customer's probability of churning. It is necessary to obtain this probability of the seller going into churn and select the best sellers to send the gift card. However, the Olist finance team has a restriction of $5,000 that it can make available for this gift card financial incentive for churning Olist sellers.
+The Olist marketing team needs a tool to identify the sellers who are likely to churn in the next month and somehow manage to retain that sellers. The strategy used by Olist's marketing team to retain these sellers is to use gift cards based on the customer's probability of churning and LTV value. It is necessary to obtain this probability of the seller going into churn and creste a criteria to select the best sellers to send the gift card. However, the Olist finance team has a restriction of $5,000 that it can make available for this gift card financial incentive for churning Olist sellers.
 
-The marketing team of Olist have a monetary incentive to prevent seller for churning, but the finance team have a budget of $ 5.000 to spend with this monetary gift cards incentive. The objective is to maximize ROI with marketing investiment of gits cards and work with finance budget.
+The marketing team of Olist have a monetary incentive to prevent seller for churning, but the finance team have a budget of $ 5.000 to spend with this monetary gift cards incentive. The objective is to maximize ROI (for retain Thais sellers) with marketing investiment of gits cards and work with finance budget.
 
-Do not exists historical data about marketing incentive gifts to check the efficiency of the gifts, but is possible to create some scenarios.
+Do not exists historical data about marketing incentive gifts to check the efficiency of the gifts in dataset, It is a marketing New strategy, but is possible to create some scenarios.
 
-- If churn probability > 95% this seller will leave of Olist, maybe a very big incentive is possible to use, but I will skip this sellers.
+- If churn probability > 95% this seller will leave of Olist, maybe a very big incentive is possible to use for retain, but can be a very expensive seller tô retain, I will skip this sellers and send Thais sellers to marketing with my assumptions to work with marketing team to deal with this customers.
 - If churn probability is between 95% to 85% a gift card of $200 can be a solution for retain this seller.
 - If churn probability is between 85% to 75% a gift card of $100 can retain.
 - Others sellers with probability of churn lower than 75% a gift card of $50 can be a solution.
@@ -55,7 +55,6 @@ Do not exists historical data about marketing incentive gifts to check the effic
 
 ### 2.1. The Mind Map
 For this business problem and perspective exists some factors and features that can be affect customer churn, in this context, the first thing I have done is a mind map to map and derive hypothesis for validate on EDA step and for feature engineering to create feature stores and build a ABT table to join all feature stores and create churn flag based on recency (days from last purchase).
-
 
 <img src="assets/mindmap.png">
 
@@ -72,19 +71,19 @@ For this project, the main infra of Olist is at AWS Cloud. I have developed a wo
 
 <img src="assets/airflow_dms_ingestion.png">
 
-After extraction, the Apache Airflow (orchestrator of the process) execute AWS EMR to build lakehouse (multi-hop) architecture with this new fresh data extracted from source using Spark, Apache Iceberg and AWS Glue Catalog I build a lakehouse in AWS. With the file in landing, I used Apache Iceberg lake to build a lakehouse multi-hop architecture, all ingestion scripts and pipelines using AWS technology and open source tools such as Spark, Apache Iceberg and Airflow. For serving and query layer I choosed Aws Athena to query AWS Glue Data Catalog, is a expensive tool, maybe I will change in future.
+After extraction, the Apache Airflow (orchestrator of the process) execute AWS EMR to build lakehouse (multi-hop) architecture with this new fresh data extracted, in EMR i work with Spark, Apache Iceberg and AWS Glue Catalog is possible to build a lakehouse in AWS. With the file in landing, I used Apache Iceberg to build a lakehouse multi-hop architecture, all ingestion scripts and pipelines using AWS technology and open source tools such as Spark, Apache Iceberg and Airflow. For serving and query layer I choosed Aws Athena to query AWS Glue Data Catalog icebergs, is a expensive tool, maybe I will change in future (check next steps on final of this readme).
 
 <img src="assets/airflow_emr_processing.png">
 
-With all available and clean data created with data engineering, now is the step of creating feature stores and ABT and include in main ETL of data engineering. I have created two feature stores and one ABT that is created after data engineering pipeline.
+With all available and clean data created with data engineering, now is the step of creating feature stores and ABT and include in main ETL of data engineering. I have created two feature stores and one ABT that is created after data engineering pipeline. I do not like SageMaker Feature store because i need to improve working with Spark inside a SageMaker for icebergs. If i have a central Feature Store that Is possible to query with Athena (Or other serving Tool) i can Query and build a Dashboard with feature stores for faster and productive way to share with business users the available Feature stores, is possible to Olist Power Users (Subject Experts) to validate features, share feedbacks, share new features and much more.
 
 <img src="assets/aws_emr_steps.png">
 
-Before creating the feature stores, I explored the previously created silver layer and gold layer of lakehouse, the main objective with this data is to analyze inconsistencies and business process, I have found several "problems" and observations related to purchase orders with a status different from "delivered", based on these problems and without being in the business context to understand these special orders, I assumed my work in creating the feature stores using only purchase orders already delivered available in Silver Layer from Lakehouse. I will write more about my decisions and exploration in README.
+Before creating the feature stores, I explored the previously created silver layer and gold layer of lakehouse created by data Engineer Team (Me :p), the main objective with this "Silver EDA" is to analyze inconsistencies and know business process, I have found several "problems" and observations related to purchase orders with a status different from "delivered", based on these problems/findings and without a Subject / Power User on my side to dive deep in business processo, i have created a some assumptions for this context to understand these special case orders, I assumed my work in creating the feature stores using only purchase orders already delivered available in Silver Layer from Lakehouse. I will write more about my decisions and exploration in this README.
 
 For Data Science, Exploration, Machine Learning, Business Metrics and my decisions is created inside a AWS SageMaker notebooks, is all inside two notebooks: ([exploration notebook](notebooks_churn/grc_eda.ipynb) and [modelling & business notebook](notebooks_churn/grc_modelling.ipynb)).
 
-All of this possible process is automatic with Terrafom and you can see a workflow in a image below.
+All of this possible process in AWS solutions is automatic created with Terrafom and you can see a workflow in a image below.
 
 <img src="assets/simple_aws_infra.png">
 
@@ -230,6 +229,7 @@ And the split point in metrics:
 <img src="assets/split_point.png">
 
 With this Logistic Regression, I fit last with all dataset available to score the next month.
+I Focus on Logistic because is Very easy to explain (because is a regression with sigmoid that Is possible to calculate by hand), for next steps o will check the shap values and make a more robust explainability of this estimator that i have created. The main focus in ML is to be a very simple step with not a magic Black box estimator.
 
 ## 5.0. Business Results
 
@@ -241,12 +241,12 @@ Why?
 
 The marketing team of Olist have a monetary incentive to prevent seller for churning, but the finance team have a budget of $ 5.000 to spend with this monetary gift cards incentive. The objective is to maximize ROI with marketing investiment of gits cards and work with finance budget.
 
-To calculate the profit, i created a Holt linear forecast of LTV for all sellers. With that now I have an estimator in my hands that describes the probability of a seller churning. And the LTV of each seller.
+To calculate the profit, i created a Holt linear forecast of LTV for all available sellers. With that now I have an estimator in my hands that describes the probability of a seller churning and the LTV forecast of each seller.
 
-The marketing of Olist will created a gift cards strategy to retain this sellers to not churn, but the financial team have a limit budget to invest in this project, a limit of $ 5.000, I need to maximize investiment of gift cards in certain sellers.
+The marketing of Olist will created a gift cards strategy to retain this sellers to not churn, but the financial team have a limit budget to invest in this project, a limit of $ 5.000, I need to maximize investiment of gift cards in certain sellers, i need to priorize what sellers i need to select for gift cards, not only "order by probability", but i have calculate the ROI in two approaches:
 
-1. One very simple approach is to sort sellers by probability and give a monetary incentives exponentially decreassing over the probas.
-2. A second approach is to use LTV as weight for better selecting clients, this fits into knapsack problem.
+1. One very simple approach is to sort sellers by probability and give a monetary incentives and exponentially decreassing over the probas.
+2. A second approach is to use LTV forecast as weight for better selecting clients, this fits into knapsack problem for optimize selection with LTV weights. Below you see the results:
 
 - Last Month Profit: $9,610,970.22.
 - Estimated Profit for this month: $10,225,204.19.
@@ -257,22 +257,28 @@ I work with a Slice in sellers, Sellers with 50% Probability of Churn.
 - Total of LTV: $487,035.81
 - Total Gift to Spend to Retain all: $25,550.00
 
-Scored Only Business Metrics:
+Scored Only Probability - Business Metrics:
 - Total Retained LTV: $295,666.82
-- Total Spended in Gifts: 5000
-- Total Retained Sellers: 56 (20.90% of Sellers)
+- Total Spended in Gifts: $5,000
+- Total Retained Sellers: 56 (20.90% of Sellers).
 
-Optimal Solution Business Metrics:
+Optimal Solution with LTV Forecast - Business Metrics:
 - Total Retained LTV: $462,048.67
-- Total Spended in Gifts: 5000
-- Total Retained Sellers: 90 (33.58% of Sellers)
-
+- Total Spended in Gifts: $5,000
+- Total Retained Sellers: 90 (33.58% of Sellers).
 
 ## 6.0. Next Steps
 
 ---
 
+Data Science:
+
 1. My deploy is a very simple Pipeline with fitted Logistic Regression, is possible to try Mlflow for deploy.
 2. Explore more the validated hypothesis.
 3. Explore new Features.
 4. Create a churn dashboard with Metabase.
+
+Data Engineer:
+
+1. Reduce processing time in EMR to create Iceberg tables using "Iceberg Change Data Feed" available on V2 tables, instead of a Full Load.
+2. Main focus after Iceberg V2 tables is to reduce EC2, Athena and EMR costs, is possible to use AWS Kubernetes (EKS) with Spark On k8s, Trino instead of Athena for Query Layer, Metabase on K8s, Airflow on K8s and Mlflow on K8s, with EKS i remove price of EC2, Athena and EMR and pay only EKS with ALL Stack on K8s.
